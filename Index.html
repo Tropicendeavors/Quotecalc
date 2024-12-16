@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving Cost Calculator</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN26oyVj8G2W8lgrLPkANp5_81dnWg7Aw&libraries=places"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, button, select {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #map {
+            height: 200px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        #output, #breakdown {
+            margin-top: 20px;
+        }
+        .toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .rate-field {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .rate-field input {
+            flex: 2;
+            min-width: 100px;
+        }
+        .rate-field button {
+            flex: 1;
+            padding: 5px 10px;
+            font-size: 14px;
+            max-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="createNewForm()" style="margin-bottom: 20px;">New Form</button>
+    <div class="form-group">
+        <label for="past-quotes">Recall a Past Quote:</label>
+        <select id="past-quotes" onchange="recallQuote(this.value)">
+            <option value="">Select a Quote</option>
+        </select>
+    </div>
+    <h1>Driving Cost Calculator</h1>
+    <div>
+        <div class="form-group">
+            <label for="customer-name">Customer Name:</label>
+            <input type="text" id="customer-name" placeholder="Enter customer name">
+        </div>
+        <div class="form-group">
+            <label for="phone-number">Phone Number:</label>
+            <input type="text" id="phone-number" placeholder="Enter phone number">
+        </div>
+        <div class="form-group">
+            <label for="num-passengers">Number of Passengers:</label>
+            <input type="number" id="num-passengers" min="1" placeholder="Enter number of passengers">
+        </div>
+        <div class="form-group">
+            <label for="origin">Pickup Location:</label>
+            <input type="text" id="origin" placeholder="Enter pickup location">
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" placeholder="Enter destination">
+        </div>
+        <div class="form-group">
+            <label for="pickup-date">Pickup Date:</label>
+            <input type="date" id="pickup-date">
+        </div>
+        <div class="toggle form-group">
+            <label>
+                <input type="radio" name="time-toggle" value="pickup" checked>
+                Pickup Time:
+            </label>
+            <input type="time" id="pickup-time">
+        </div>
+        <div class="toggle form-group">
+            <label>
+                <input type="radio" name="time-toggle" value="arrival">
+                Arrival Time:
+            </label>
+            <input type="time" id="arrival-time">
+        </div>
+        <div class="form-group rate-field">
+            <label for="base-rate">Base Rate ($):</label>
+            <input type="number" id="base-rate" placeholder="Enter base rate" readonly>
+            <button onclick="editRate('base-rate')">Edit</button>
+        </div>
+        <div class="form-group rate-field">
+            <label for="mile-rate">Per Mile Rate ($):</label>
+            <input type="number" id="mile-rate" placeholder="Enter per mile rate" readonly>
+            <button onclick="editRate('mile-rate')">Edit</button>
+        </div>
+        <div class="form-group rate-field">
+            <label for="minute-rate">Per Minute Rate ($):</label>
+            <input type="number" id="minute-rate" placeholder="Enter per minute rate" readonly>
+            <button onclick="editRate('minute-rate')">Edit</button>
+        </div>
+        <button onclick="calculateCost()">Calculate Cost</button>
+        <div id="map"></div>
+        <div id="output"></div>
+        <div id="breakdown"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
